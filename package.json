@@ -1,5 +1,5 @@
 {
-  "name": "schedule-visualizer",
+  "name": "shyfty",
   "version": "1.0.0",
   "description": "A tool for visualizing a workforce",
   "main": "index.js",

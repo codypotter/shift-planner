@@ -5,25 +5,13 @@ import uuid from 'uuid/v1';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-export default class Shiftalizer extends React.Component {
+export default class Shyfty extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      teamMembers: [
-
-      ],
-      form: {
-        name: "",
-        role: "",
-        inTime: "",
-        outTime: ""
-      },
-      error: {
-        name: false,
-        role: false,
-        inTime: false,
-        outTime: false
-      }
+      teamMembers: [],
+      form: { name: "", role: "", inTime: "", outTime: "" },
+      error: { name: false, role: false, inTime: false, outTime: false }
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -45,16 +33,10 @@ export default class Shiftalizer extends React.Component {
 
   render() {
     let chart;
-    if (this.state.teamMembers.length === 0) {
-      chart = <div className="columns is-centered">
-          <div className="column is-half">
-              <img src="/static/no-data.svg" />
-          </div>
-        </div>
-    } else {
+    if (this.state.teamMembers.length !== 0) {
       chart = <Chart
         width={'100%'}
-        height={900}
+        height={screen.availHeight - 50}
         chartType="Timeline"
         loader={<div>Loading Chart</div>}
         data={[
@@ -74,13 +56,12 @@ export default class Shiftalizer extends React.Component {
           ))
         ]}
         options={{
-          backgroundColor: '#212121',
-          colors: ['#FFA000', '#00ACC1', '#EC407A', '#e53935', '#42A5F5', '#FFB74D'],
+          colors: ['#1D8CD6', '#23D160', '#FFDD57', '#FF3860', '#3273DC', '#00D1B2'],
           timeline: {
-            rowLabelStyle: {
-              color: '#EEEEEE'
-            },
             colorByRowLabel: true,
+            rowLabelStyle: {
+              fontName: 'system-ui'
+            }
           }
         }}
         rootProps={{ 'data-testid': '5' }}
@@ -91,135 +72,140 @@ export default class Shiftalizer extends React.Component {
       <Layout>
         <section className="section">
           <div className="container">
-            <div className="columns">
-              <div className="column">
-                <h1 className="is-size-3">Add Team Member</h1>
-                <div className="field">
-                  <label className="label">Name</label>
-                  <div className="control">
-                    <input className={!this.state.error.name ? "input" : "input is-danger"} name="name" type="text" placeholder="e.g Cody" onChange={this.handleInputChange} value={this.state.form.name} />
+            <div className="box">
+              <div className="columns">
+                {/*Form Component*/}
+                <div className="column">
+                  <h1 className="is-size-3">Add Team Member</h1>
+                  <div className="field">
+                    <label className="label">Name</label>
+                    <div className="control">
+                      <input className={!this.state.error.name ? "input" : "input is-danger"} name="name" type="text" placeholder="e.g Cody" onChange={this.handleInputChange} value={this.state.form.name} />
+                    </div>
                   </div>
-                </div>
-                <div className="field">
-                  <label className="label">Role</label>
-                  <div className="control">
-                    <input className={!this.state.error.role ? "input" : "input is-danger"} name="role" type="text" placeholder="e.g. Shift Leader" onChange={this.handleInputChange} value={this.state.form.role} />
+                  <div className="field">
+                    <label className="label">Role</label>
+                    <div className="control">
+                      <input className={!this.state.error.role ? "input" : "input is-danger"} name="role" type="text" placeholder="e.g. Shift Leader" onChange={this.handleInputChange} value={this.state.form.role} />
+                    </div>
                   </div>
-                </div>
-                <div className="field">
-                  <label className="label">In Time</label>
-                  <div className="control">
-                    <input className={!this.state.error.inTime ? "input" : "input is-danger"} name="inTime" type="time" onChange={this.handleInputChange} value={this.state.form.inTime} />
+                  <div className="field">
+                    <label className="label">In Time</label>
+                    <div className="control">
+                      <input className={!this.state.error.inTime ? "input" : "input is-danger"} name="inTime" type="time" onChange={this.handleInputChange} value={this.state.form.inTime} />
+                    </div>
                   </div>
-                </div>
-                <div className="field">
-                  <label className="label">Out TIme</label>
-                  <div className="control">
-                    <input className={!this.state.error.outTime ? "input" : "input is-danger"} name="outTime" type="time" onChange={this.handleInputChange} value={this.state.form.outTime} />
+                  <div className="field">
+                    <label className="label">Out TIme</label>
+                    <div className="control">
+                      <input className={!this.state.error.outTime ? "input" : "input is-danger"} name="outTime" type="time" onChange={this.handleInputChange} value={this.state.form.outTime} />
+                    </div>
                   </div>
-                </div>
-                <div className="field">
-                  <button className="button is-success" onClick={(event) => {
-                    event.preventDefault();
+                  <div className="field">
+                    <button className="button is-success" onClick={(event) => {
+                      event.preventDefault();
 
-                    if (this.state.form.name === "") {
-                      this.setState({
-                        ...this.state,
-                        error: {
-                          ...this.state.error,
-                          name: true
-                        }
-                      })
-                    } else if (this.state.form.role === "") {
-                      this.setState({
-                        ...this.state,
-                        error: {
-                          ...this.state.error,
-                          role: true
-                        }
-                      })
-                    } else if (!moment(this.state.form.inTime, 'hh:mm').isValid()) {
-                      this.setState({
-                        ...this.state,
-                        error: {
-                          ...this.state.error,
-                          inTime: true
-                        }
-                      })
-                    } else if (!moment(this.state.form.outTime, 'hh:mm').isValid()) {
-                      this.setState({
-                        ...this.state,
-                        error: {
-                          ...this.state.error,
-                          outTime: true
-                        }
-                      })
-                    } else {
-                      this.setState({
-                        ...this.state,
-                        teamMembers: [
-                          ...this.state.teamMembers,
-                          {
-                            id: uuid(),
-                            name: this.state.form.name,
-                            role: this.state.form.role,
-                            inTime: moment(this.state.form.inTime, 'hh:mm'),
-                            outTime: moment(this.state.form.outTime, 'hh:mm')
+                      if (this.state.form.name === "") {
+                        this.setState({
+                          ...this.state,
+                          error: {
+                            ...this.state.error,
+                            name: true
                           }
-                        ],
-                        error: {
-                          name: false,
-                          role: false,
-                          inTime: false,
-                          outTime: false
-                        }
-                      })
-                    }
-                  }}>Add Team Member</button>
+                        })
+                      } else if (this.state.form.role === "") {
+                        this.setState({
+                          ...this.state,
+                          error: {
+                            ...this.state.error,
+                            role: true
+                          }
+                        })
+                      } else if (!moment(this.state.form.inTime, 'hh:mm').isValid()) {
+                        this.setState({
+                          ...this.state,
+                          error: {
+                            ...this.state.error,
+                            inTime: true
+                          }
+                        })
+                      } else if (!moment(this.state.form.outTime, 'hh:mm').isValid()) {
+                        this.setState({
+                          ...this.state,
+                          error: {
+                            ...this.state.error,
+                            outTime: true
+                          }
+                        })
+                      } else {
+                        this.setState({
+                          ...this.state,
+                          teamMembers: [
+                            ...this.state.teamMembers,
+                            {
+                              id: uuid(),
+                              name: this.state.form.name,
+                              role: this.state.form.role,
+                              inTime: moment(this.state.form.inTime, 'hh:mm'),
+                              outTime: moment(this.state.form.outTime, 'hh:mm')
+                            }
+                          ],
+                          error: {
+                            name: false,
+                            role: false,
+                            inTime: false,
+                            outTime: false
+                          }
+                        })
+                      }
+                    }}>Add Team Member</button>
+                  </div>
                 </div>
-              </div>
-              <div className="column">
-                <h1 className="is-size-3">Team Members</h1>
-                <table className="table">
-                  <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Role</th>
-                    <th>In Time</th>
-                    <th>Out Time</th>
-                    <th></th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  {this.state.teamMembers.map((teamMember, index) => (
-                    <tr key={index}>
-                      <th>{index + 1}</th>
-                      <td>{teamMember.name}</td>
-                      <td>{teamMember.role}</td>
-                      <td>{teamMember.inTime.format('hh:mm a')}</td>
-                      <td>{teamMember.outTime.format('hh:mm a')}</td>
-                      <td>
-                        <a className="button is-danger is-outlined" onClick={(event) => {
-                          this.setState({
-                            ...this.state,
-                            teamMembers: this.state.teamMembers.filter((tm) => (
-                              tm.id !== teamMember.id
-                            ))
-                          })
-                        }}>
-                          <span>Delete</span>
+
+                {/*Table Component*/}
+                <div className="column">
+                  <h1 className="is-size-3">Team Members</h1>
+                  <table className="table is-fullwidth">
+                    <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Role</th>
+                      <th>In Time</th>
+                      <th>Out Time</th>
+                      <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {this.state.teamMembers.map((teamMember, index) => (
+                      <tr key={index}>
+                        <th>{index + 1}</th>
+                        <td>{teamMember.name}</td>
+                        <td>{teamMember.role}</td>
+                        <td>{teamMember.inTime.format('hh:mm a')}</td>
+                        <td>{teamMember.outTime.format('hh:mm a')}</td>
+                        <td>
+                          <a className="button is-danger is-outlined is-small" onClick={(event) => {
+                            this.setState({
+                              ...this.state,
+                              teamMembers: this.state.teamMembers.filter((tm) => (
+                                tm.id !== teamMember.id
+                              ))
+                            })
+                          }}>
                           <span className="icon is-small">
                            <FontAwesomeIcon icon={faTimes} />
                           </span>
-                        </a>
-                      </td>
-                    </tr>
-                  ))}
-                  </tbody>
-                </table>
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
+
           </div>
         </section>
 
