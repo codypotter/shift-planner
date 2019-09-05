@@ -1,0 +1,29 @@
+{
+  "name": "schedule-visualizer",
+  "version": "1.0.0",
+  "description": "A tool for visualizing a workforce",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start -p $PORT",
+    "heroku-postbuild": "npm run build",
+    "test": "echo \"Error: no text specified\" && exit 1"
+  },
+  "author": "Cody Potter",
+  "license": "ISC",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.22",
+    "@fortawesome/free-solid-svg-icons": "^5.10.2",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "@zeit/next-sass": "^1.0.1",
+    "bulma": "^0.7.5",
+    "moment": "^2.24.0",
+    "next": "^9.0.5",
+    "node-sass": "^4.12.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-google-charts": "^3.0.15",
+    "uuid": "^3.3.3"
+  }
+}
